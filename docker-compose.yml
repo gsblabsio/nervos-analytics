@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  node-init:
+    build:
+      context: ./node
+    env_file: .env
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: 1m
+    entrypoint: /home/nervos/init.sh
+    volumes:
+      - nervos_data:/var/lib/ckb
+  node:
+    build:
+      context: ./node
+    env_file: .env
+    depends_on:
+      - node-init
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: 1m
+    entrypoint: /home/nervos/docker-entrypoint.sh
+    volumes:
+      - nervos_data:/var/lib/ckb
+  chain-grabber:
+    build:
+      context: ./chain-grabber
+    env_file: .env
+    depends_on:
+      - postgres
+      - node
+      - redis
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: 1m
+    ports:
+      - "3000:3000"
+  explorer:
+    build:
+      context: ./explorer
+    env_file: .env
+    depends_on:
+      - chain-grabber
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: 1m
+    ports:
+      - "80:3000"
+  postgres:
+    image: postgres:13
+    environment:
+      - PGDATA=/pgdata
+    env_file: .env
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: 1m
+    volumes:
+      - postgres_data:/pgdata
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:latest
+
+volumes:
+  nervos_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+      attachable: true
