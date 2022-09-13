@@ -7,6 +7,9 @@ export STAGING_DOMAIN="$EXPLORER_URL"
 echo "DB_USERNAME=$POSTGRES_USER" >> .env.local
 echo "DB_PASSWORD=$POSTGRES_PASSWORD" >> .env.local
 
+# give DB a chance to start
+sleep 5
+
 if [ "$( psql -h postgres -U "$POSTGRES_USER" -XtAc "SELECT 1 FROM pg_database WHERE datname='ckb_explorer_development'" )" != '1' ]
 then
 	psql -h postgres -U "$POSTGRES_USER" -c "CREATE DATABASE ckb_explorer_development"

@@ -20,7 +20,6 @@ RUN gem i -N bundler:${BUNDLER_VERSION} foreman
 RUN bundle config --global frozen 1 && \
   bundle config set --local path 'vendor/bundle' && \
   bundle config deployment true
-COPY Gemfile* ./
 RUN bundle install -j4 --retry 3 && rm -rf vendor/cache
 
 RUN echo "CKB_NODE_URL=http://node:8114" > .env.local
