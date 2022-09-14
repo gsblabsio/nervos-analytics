@@ -7,6 +7,12 @@ export STAGING_DOMAIN="$EXPLORER_URL"
 echo "DB_USERNAME=$POSTGRES_USER" >> .env.local
 echo "DB_PASSWORD=$POSTGRES_PASSWORD" >> .env.local
 
+splits=(${EXPLORER_URL//\/\// })
+echo "" >> config/environments/development.rb
+echo "Rails.application.configure do" >> config/environments/development.rb
+echo "  config.hosts << \"${splits[1]}\"" >> config/environments/development.rb
+echo "end" >> config/environments/development.rb
+
 # give DB a chance to start
 sleep 5
 
