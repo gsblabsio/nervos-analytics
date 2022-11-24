@@ -30,5 +30,6 @@ RUN touch config/settings.local.yml
 RUN apt-get install postgresql-client -y
 
 ADD ./docker-entrypoint.sh .
+ADD ./readonly.sql .
 
 ENTRYPOINT ["/usr/src/docker-entrypoint.sh"]

@@ -9,11 +9,13 @@ cp sample.env .env
 
 ### Update .env config variables
 
-> Note: POSTGRES variables are only used when postgres starts the first time.
+> Note: POSTGRES and READONLY variables are only used when postgres starts the first time.
 
 ```
 POSTGRES_USER=nervos
 POSTGRES_PASSWORD=changeme
+READONLY_USER=readonly_user
+READONLY_PASSWORD=readonly
 ```
 
 ### Start the Node / Chain Grabber / Explorer

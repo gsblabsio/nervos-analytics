@@ -54,6 +54,7 @@ services:
   postgres:
     image: postgres:13
     environment:
+      - POSTGRES_DB=ckb_explorer_development
       - PGDATA=/pgdata
     env_file: .env
     logging:
