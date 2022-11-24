@@ -18,9 +18,9 @@ sleep 5
 
 if [ "$( psql -h postgres -U "$POSTGRES_USER" -XtAc "SELECT 1 FROM information_schema.tables WHERE table_schema='public'" -d ckb_explorer_development )" != '1' ]
 then
-	sed -i "s/READONLY_USER/$READONLY_USER/g" ../readonly.sql
-	sed -i "s/READONLY_PASSWORD/$READONLY_PASSWORD/g" ../readonly.sql
-	psql -h postgres -U "$POSTGRES_USER" -d ckb_explorer_development -f ../readonly.sql
+	sed -i "s/READONLY_USER/$READONLY_USER/g" readonly.sql
+	sed -i "s/READONLY_PASSWORD/$READONLY_PASSWORD/g" readonly.sql
+	psql -h postgres -U "$POSTGRES_USER" -d ckb_explorer_development -f readonly.sql
     bin/setup
 fi
 
